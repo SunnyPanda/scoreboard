@@ -15,26 +15,59 @@
  * limitations under the License.
  */
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.ObjectMapper;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+
 import javax.ejb.Stateful;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Stateful
 public class OrderEJB {
 
-    public List<String> createOrders() {
-        List<String> orders = new ArrayList<>();
-        orders.add("Заказ №1");
-        orders.add("Заказ №2");
-        orders.add("Заказ №3");
-        orders.add("Заказ №4");
-        orders.add("Заказ №5");
-        orders.add("Заказ №6");
-        orders.add("Заказ №7");
-        orders.add("Заказ №8");
-        orders.add("Заказ №9");
-        orders.add("Заказ №10");
+    public List<Order> createOrders() throws UnirestException {
+//        List<String> orders = new ArrayList<>();
+//        orders.add("Заказ №1");
+//        orders.add("Заказ №2");
+//        orders.add("Заказ №3");
+//        orders.add("Заказ №4");
+//        orders.add("Заказ №5");
+//        orders.add("Заказ №6");
+//        orders.add("Заказ №7");
+//        orders.add("Заказ №8");
+//        orders.add("Заказ №9");
+//        orders.add("Заказ №10");
 
-        return orders;
+    Unirest.setObjectMapper(new ObjectMapper() {
+        private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper
+                = new com.fasterxml.jackson.databind.ObjectMapper();
+
+        public <T> T readValue(String value, Class<T> valueType) {
+            try {
+                return jacksonObjectMapper.readValue(value, valueType);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public String writeValue(Object value) {
+            try {
+                return jacksonObjectMapper.writeValueAsString(value);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    });
+
+    HttpResponse<Order[]> httpResponse = Unirest.get("http://localhost:8000/api/info").asObject(Order[].class);
+    List<Order> tempOrders = Arrays.asList(httpResponse.getBody());
+    System.out.println("tempOrders = " + tempOrders);
+
+        return tempOrders;
     }
 }
