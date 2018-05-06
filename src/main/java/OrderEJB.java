@@ -16,7 +16,6 @@
  */
 
 import javax.ejb.Stateful;
-import javax.faces.bean.ManagedBean;
 import java.util.ArrayList;
 import java.util.List;
 

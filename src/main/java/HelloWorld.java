@@ -29,22 +29,20 @@
 //
 //}
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.ObjectMapper;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import com.mashape.unirest.request.GetRequest;
-import com.rabbitmq.client.GetResponse;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedProperty;
 import javax.inject.Named;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 @Named("orders")
@@ -57,16 +55,52 @@ public class HelloWorld implements Serializable {
   @EJB
   private OrderEJB orderEJB;
 
-  private String json;
+  private String jsonString;
 
   private List<String> orders;
 
+  public static class Order {
+    public long id;
+    public long uniqueNumber;
+    public String orderStatus;
+
+    @Override
+    public String toString() {
+      return "Order{" +
+              "id=" + id +
+              ", uniqueNumber=" + uniqueNumber +
+              ", orderStatus='" + orderStatus + '\'' +
+              '}';
+    }
+  }
 
   @PostConstruct
   public void init() throws UnirestException {
-    HttpResponse<String> httpResponse = Unirest.get("http://localhost:8000/api/info").asString();
-    json = httpResponse.getBody();
-    System.out.println(json);
+    Unirest.setObjectMapper(new ObjectMapper() {
+      private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper
+              = new com.fasterxml.jackson.databind.ObjectMapper();
+
+      public <T> T readValue(String value, Class<T> valueType) {
+        try {
+          return jacksonObjectMapper.readValue(value, valueType);
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+      }
+
+      public String writeValue(Object value) {
+        try {
+          return jacksonObjectMapper.writeValueAsString(value);
+        } catch (JsonProcessingException e) {
+          throw new RuntimeException(e);
+        }
+      }
+    });
+
+    HttpResponse<Order[]> httpResponse = Unirest.get("http://localhost:8000/api/info").asObject(Order[].class);
+    List<Order> tempOrders = Arrays.asList(httpResponse.getBody());
+    System.out.println("tempOrders = " + tempOrders);
+
     orders = orderEJB.createOrders();
   }
 
