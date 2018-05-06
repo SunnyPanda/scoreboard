@@ -1,4 +1,5 @@
 import javax.ejb.Stateful;
+import java.util.List;
 
 @Stateful
 public class Order {
@@ -6,6 +7,16 @@ public class Order {
     private long id;
     private long uniqueNumber;
     private String orderStatus;
+    private Truck truck;
+    private List<Driver> drivers;
+
+    public Truck getTruck() {
+        return truck;
+    }
+
+    public void setTruck(Truck truck) {
+        this.truck = truck;
+    }
 
     public long getId() {
         return id;
@@ -31,12 +42,22 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
+    public List<Driver> getDrivers() {
+        return drivers;
+    }
+
+    public void setDrivers(List<Driver> drivers) {
+        this.drivers = drivers;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
                 ", uniqueNumber=" + uniqueNumber +
                 ", orderStatus='" + orderStatus + '\'' +
+                ", truck=" + truck +
+                ", drivers=" + drivers +
                 '}';
     }
 }

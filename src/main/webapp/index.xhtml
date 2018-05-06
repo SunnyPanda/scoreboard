@@ -22,7 +22,13 @@
             </p:column>
 
             <p:column headerText="Truck">
-                <!--<h:outputText value="#{car.brand}" />-->
+                <h:outputText value="#{order.truck.regNumber}" />
+            </p:column>
+
+            <p:column headerText="Drivers">
+                <p:dataList var="driver" value="#{order.drivers}">
+                    <h:outputText value="#{driver.personalNumber}" />
+                </p:dataList>
             </p:column>
 
             <p:column headerText="Status">

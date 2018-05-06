@@ -29,11 +29,6 @@
 //
 //}
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.ObjectMapper;
-import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 import javax.annotation.PostConstruct;
@@ -58,21 +53,6 @@ public class HelloWorld implements Serializable {
   private String jsonString;
 
   private List<Order> orders;
-
-//  public static class Order {
-//    public long id;
-//    public long uniqueNumber;
-//    public String orderStatus;
-//
-//    @Override
-//    public String toString() {
-//      return "Order{" +
-//              "id=" + id +
-//              ", uniqueNumber=" + uniqueNumber +
-//              ", orderStatus='" + orderStatus + '\'' +
-//              '}';
-//    }
-//  }
 
   @PostConstruct
   public void init() throws UnirestException {
