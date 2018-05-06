@@ -74,8 +74,8 @@ public class HelloWorld implements Serializable {
     return orders;
   }
 
-  public void setOrders() {
-    orders = orderEJB.createOrders();
-  }
+//  public void setOrders() {
+//    orders = orderEJB.createOrders();
+//  }
 
 }
