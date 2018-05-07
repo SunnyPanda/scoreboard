@@ -31,17 +31,6 @@ import java.util.List;
 public class OrderEJB {
 
     public List<Order> createOrders() throws UnirestException {
-//        List<String> orders = new ArrayList<>();
-//        orders.add("Заказ №1");
-//        orders.add("Заказ №2");
-//        orders.add("Заказ №3");
-//        orders.add("Заказ №4");
-//        orders.add("Заказ №5");
-//        orders.add("Заказ №6");
-//        orders.add("Заказ №7");
-//        orders.add("Заказ №8");
-//        orders.add("Заказ №9");
-//        orders.add("Заказ №10");
 
     Unirest.setObjectMapper(new ObjectMapper() {
         private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper
@@ -64,10 +53,28 @@ public class OrderEJB {
         }
     });
 
-    HttpResponse<Order[]> httpResponse = Unirest.get("http://localhost:8000/api/info").asObject(Order[].class);
+    HttpResponse<Order[]> httpResponse = Unirest.get("http://localhost:8000/api/orders").asObject(Order[].class);
     List<Order> tempOrders = Arrays.asList(httpResponse.getBody());
-    System.out.println("tempOrders = " + tempOrders);
+    //System.out.println("tempOrders = " + tempOrders);
 
         return tempOrders;
+    }
+
+    public DriversInfo driversInfo() throws UnirestException {
+
+        HttpResponse<DriversInfo> httpResponse = Unirest.get("http://localhost:8000/api/drivers").asObject(DriversInfo.class);
+        DriversInfo driversInfo = httpResponse.getBody();
+        System.out.println("diversInfo = " + driversInfo);
+
+        return driversInfo;
+    }
+
+    public TrucksInfo trucksInfo() throws UnirestException {
+
+        HttpResponse<TrucksInfo> httpResponse = Unirest.get("http://localhost:8000/api/trucks").asObject(TrucksInfo.class);
+        TrucksInfo trucksInfo = httpResponse.getBody();
+        System.out.println("trucksInfo = " + trucksInfo);
+
+        return trucksInfo;
     }
 }

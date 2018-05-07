@@ -35,13 +35,59 @@
                 <h:outputText value="#{order.orderStatus}" />
             </p:column>
         </p:dataTable>
-
-        <!--<h:form>-->
-            <!--<p:growl id="growl" life="2000" />-->
-
-            <!--<p:commandButton value="Just Press" id="ajax" update="growl" actionListener="#{controller.buttonAction}" styleClass="ui-priority-primary" />-->
-
-        <!--</h:form>-->
     </h:form>
+
+    <h:form id="form">
+        <h3>Drivers</h3>
+        <p:panelGrid columns="2">
+            <f:facet name="header">
+                <p:graphicImage name="webapp/driver.png" />
+            </f:facet>
+
+            <h:outputText value="Available:" />
+            <h:outputText value="#{dataGridView.driversInfo.availableDrivers}" />
+
+            <h:outputText value="Unavailable:" />
+            <h:outputText value="#{dataGridView.driversInfo.unavailableDrivers}" />
+
+            <h:outputText value="All:" />
+            <h:outputText value="#{dataGridView.driversInfo.allDrivers}" />
+        </p:panelGrid>
+
+        <h3>Trucks</h3>
+        <p:panelGrid columns="2">
+            <f:facet name="header">
+                <!--<p:graphicImage name="demo/images/misc/kobe.png" />-->
+            </f:facet>
+
+            <h:outputText value="Available:" />
+            <h:outputText value="#{dataGridView.trucksInfo.availableTrucks}" />
+
+            <h:outputText value="On order:" />
+            <h:outputText value="#{dataGridView.trucksInfo.onOrderTrucks}" />
+
+            <h:outputText value="Broken:" />
+            <h:outputText value="#{dataGridView.trucksInfo.brokenTrucks}" />
+
+            <h:outputText value="All:" />
+            <h:outputText value="#{dataGridView.trucksInfo.allTrucks}" />
+        </p:panelGrid>
+    </h:form>
+
+    <style type="text/css">
+        /*demo*/
+        .ui-dataview-list .ui-dataview-row {
+            border-bottom: 1px solid #A8A8A8;
+            padding: 25px 10px;
+        }
+
+        .logo {
+            width: 5%;
+        }
+        .detail {
+            width: 85%;
+            padding-left: 25px;
+        }
+    </style>
 </h:body>
 </html>
