@@ -58,6 +58,7 @@ public class HelloWorld implements Serializable {
     orders = orderEJB.createOrders();
 //    DriversInfo driversInfo = orderEJB.driversInfo();
 //    TrucksInfo trucksInfo = orderEJB.trucksInfo();
+
   }
 
   public List<Order> getOrders() {

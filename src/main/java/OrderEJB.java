@@ -23,7 +23,6 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 import javax.ejb.Stateful;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -76,5 +75,16 @@ public class OrderEJB {
         System.out.println("trucksInfo = " + trucksInfo);
 
         return trucksInfo;
+    }
+
+    public void applyChanges(String string) throws UnirestException {
+        switch (string) {
+            case "driver" : driversInfo();
+            break;
+            case "truck" : trucksInfo();
+            break;
+            case "order" : createOrders();
+            break;
+        }
     }
 }
