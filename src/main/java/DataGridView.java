@@ -1,35 +1,27 @@
 import java.io.Serializable;
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
+import javax.ejb.*;
+//import javax.faces.bean.ApplicationScoped;
+//import javax.ejb.Singleton;
+import javax.enterprise.context.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
+//import javax.inject.Singleton;
 
 @ManagedBean
-//@Named("info")
-@ViewScoped
+@Startup
+@ApplicationScoped
 public class DataGridView implements Serializable {
 
-    @EJB
-    private OrderEJB orderEJB;
-
-    @EJB
-    private RecieverEJB recieverEJB;
-
-    private DriversInfo driversInfo;
-    private TrucksInfo trucksInfo;
-
-    @PostConstruct
-    public void init() throws Exception {
-        driversInfo = orderEJB.driversInfo();
-        trucksInfo = orderEJB.trucksInfo();
-        recieverEJB.recieve();
-    }
-
+    @Inject
+    private DataGridService dataGridService;
+    
     public DriversInfo getDriversInfo() {
-        return driversInfo;
+        System.out.println("DataGridView.getDriversInfo");
+        return dataGridService.getDriversInfo();
     }
 
     public TrucksInfo getTrucksInfo() {
-        return trucksInfo;
+        System.out.println("DataGridView.getTrucksInfo");
+        return dataGridService.getTrucksInfo();
     }
 }

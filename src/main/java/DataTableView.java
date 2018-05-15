@@ -33,6 +33,10 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.ejb.Stateful;
+import javax.ejb.Stateless;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.IOException;
@@ -42,27 +46,17 @@ import java.util.List;
 
 @Named("orders")
 @SessionScoped
-public class HelloWorld implements Serializable {
+public class DataTableView implements Serializable {
 
-  /** Default value included to remove warning. **/
-  private static final long serialVersionUID = 1L;
+    /** Default value included to remove warning. **/
+    private static final long serialVersionUID = 1L;
 
-  @EJB
-  private OrderEJB orderEJB;
+    @EJB
+    private DataTableService dataTableService;
 
-  private List<Order> orders;
+    public List<Order> getOrders() {
 
-  @PostConstruct
-  public void init() throws UnirestException {
-
-    orders = orderEJB.createOrders();
-//    DriversInfo driversInfo = orderEJB.driversInfo();
-//    TrucksInfo trucksInfo = orderEJB.trucksInfo();
-
-  }
-
-  public List<Order> getOrders() {
-    return orders;
-  }
+        return dataTableService.getOrders();
+    }
 
 }

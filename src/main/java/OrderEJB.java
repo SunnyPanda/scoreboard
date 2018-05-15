@@ -21,40 +21,44 @@ import com.mashape.unirest.http.ObjectMapper;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-@Stateful
+@Stateless
 public class OrderEJB {
+
+    @Inject
+    private DataGridService dataGridService;
 
     public List<Order> createOrders() throws UnirestException {
 
-    Unirest.setObjectMapper(new ObjectMapper() {
-        private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper
-                = new com.fasterxml.jackson.databind.ObjectMapper();
+        Unirest.setObjectMapper(new ObjectMapper() {
+            private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper
+                    = new com.fasterxml.jackson.databind.ObjectMapper();
 
-        public <T> T readValue(String value, Class<T> valueType) {
-            try {
-                return jacksonObjectMapper.readValue(value, valueType);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            public <T> T readValue(String value, Class<T> valueType) {
+                try {
+                    return jacksonObjectMapper.readValue(value, valueType);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        }
 
-        public String writeValue(Object value) {
-            try {
-                return jacksonObjectMapper.writeValueAsString(value);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
+            public String writeValue(Object value) {
+                try {
+                    return jacksonObjectMapper.writeValueAsString(value);
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        }
-    });
+        });
 
-    HttpResponse<Order[]> httpResponse = Unirest.get("http://localhost:8000/api/orders").asObject(Order[].class);
-    List<Order> tempOrders = Arrays.asList(httpResponse.getBody());
-    //System.out.println("tempOrders = " + tempOrders);
+        HttpResponse<Order[]> httpResponse = Unirest.get("http://localhost:8000/api/orders").asObject(Order[].class);
+        List<Order> tempOrders = Arrays.asList(httpResponse.getBody());
+        System.out.println("tempOrders");
 
         return tempOrders;
     }
@@ -63,7 +67,7 @@ public class OrderEJB {
 
         HttpResponse<DriversInfo> httpResponse = Unirest.get("http://localhost:8000/api/drivers").asObject(DriversInfo.class);
         DriversInfo driversInfo = httpResponse.getBody();
-        System.out.println("diversInfo = " + driversInfo);
+        System.out.println("driversInfo = " + driversInfo);
 
         return driversInfo;
     }
@@ -79,12 +83,15 @@ public class OrderEJB {
 
     public void applyChanges(String string) throws UnirestException {
         switch (string) {
-            case "driver" : driversInfo();
-            break;
-            case "truck" : trucksInfo();
-            break;
-            case "order" : createOrders();
-            break;
+            case "driver":
+                dataGridService.setDriversInfo(dataGridService.updateDriversInfo());
+                break;
+            case "truck":
+                dataGridService.setTrucksInfo(dataGridService.updateTrucksInfo());
+                break;
+            case "order":
+                createOrders();
+                break;
         }
     }
 }

@@ -9,8 +9,14 @@
     <param-value>Development</param-value>
   </context-param>
 
+  <!--<context-param>-->
+    <!--<param-name>javax.faces.ENABLE_WEBSOCKET_ENDPOINT</param-name>-->
+    <!--<param-value>true</param-value>-->
+  <!--</context-param>-->
+
   <!-- add a welcome-file-list entry to allow JSF pages to be used as welcome files -->
   <welcome-file-list>
     <welcome-file>faces/index.xhtml</welcome-file>
   </welcome-file-list>
 </web-app>
+

@@ -4,26 +4,31 @@ import com.sun.org.apache.xpath.internal.operations.Or;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.enterprise.context.SessionScoped;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.concurrent.TimeoutException;
 
-@Stateful
+@Stateless
 public class RecieverEJB{
 
     private final static String QUEUE_NAME = "queue1";
 
     @EJB
     private OrderEJB orderEJB;
+    private ConnectionFactory factory;
+    private Connection connection;
+    private Channel channel;
 
     public void recieve() throws Exception {
-        ConnectionFactory factory = new ConnectionFactory();
+        factory = new ConnectionFactory();
         factory.setHost("localhost");
-        Connection connection = factory.newConnection();
-        Channel channel = connection.createChannel();
+        connection = factory.newConnection();
+        channel = connection.createChannel();
 
         channel.queueDeclare(QUEUE_NAME, true, false, false, null);
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
@@ -42,5 +47,11 @@ public class RecieverEJB{
             }
         };
         channel.basicConsume(QUEUE_NAME, true, consumer);
+    }
+
+    @PreDestroy
+    public void close() throws IOException, TimeoutException {
+        channel.close();
+        connection.close();
     }
 }
