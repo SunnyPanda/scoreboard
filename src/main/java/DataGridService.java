@@ -42,8 +42,6 @@ public class DataGridService implements Serializable {
 //            }
 //        });
 
-
-        System.out.println("DataGridView.init");
         driversInfo = updateDriversInfo();
         trucksInfo = updateTrucksInfo();
         recieverEJB.recieve();

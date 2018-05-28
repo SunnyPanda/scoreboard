@@ -2,7 +2,6 @@ import javax.ejb.Singleton;
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 
-@Singleton
 public class DriversInfo {
 
     private long allDrivers;

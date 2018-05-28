@@ -5,7 +5,6 @@ import javax.ejb.*;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
-//import javax.inject.Singleton;
 
 @ManagedBean
 @Startup
@@ -16,12 +15,10 @@ public class DataGridView implements Serializable {
     private DataGridService dataGridService;
     
     public DriversInfo getDriversInfo() {
-        System.out.println("DataGridView.getDriversInfo");
         return dataGridService.getDriversInfo();
     }
 
     public TrucksInfo getTrucksInfo() {
-        System.out.println("DataGridView.getTrucksInfo");
         return dataGridService.getTrucksInfo();
     }
 }

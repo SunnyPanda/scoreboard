@@ -16,7 +16,7 @@ import java.util.concurrent.TimeoutException;
 @Stateless
 public class RecieverEJB{
 
-    private final static String QUEUE_NAME = "queue1";
+    private final static String QUEUE_NAME = "queue";
 
     @EJB
     private OrderEJB orderEJB;

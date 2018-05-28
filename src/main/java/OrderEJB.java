@@ -32,8 +32,10 @@ public class OrderEJB {
 
     @Inject
     private DataGridService dataGridService;
+    @Inject
+    private DataTableService dataTableService;
 
-    public List<Order> createOrders() throws UnirestException {
+    public List<Order> orders() throws UnirestException {
 
         Unirest.setObjectMapper(new ObjectMapper() {
             private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper
@@ -90,7 +92,7 @@ public class OrderEJB {
                 dataGridService.setTrucksInfo(dataGridService.updateTrucksInfo());
                 break;
             case "order":
-                createOrders();
+                dataTableService.setOrders(dataTableService.updateOrders());
                 break;
         }
     }

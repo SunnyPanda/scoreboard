@@ -1,6 +1,4 @@
-import javax.ejb.Stateful;
 
-@Stateful
 public class Truck {
     private String regNumber;
 

@@ -1,7 +1,6 @@
 import javax.ejb.Stateful;
 import java.util.List;
 
-@Stateful
 public class Order {
 
     private long id;

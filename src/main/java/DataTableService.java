@@ -15,12 +15,19 @@ public class DataTableService {
 
     @PostConstruct
     public void init() throws UnirestException {
-        orders = orderEJB.createOrders();
+        orders = orderEJB.orders();
 
     }
 
-    public List<Order> getOrders() {
+    public List<Order> updateOrders() throws UnirestException {
+        return orderEJB.orders();
+    }
 
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public List<Order> getOrders() {
         return orders;
     }
 }
